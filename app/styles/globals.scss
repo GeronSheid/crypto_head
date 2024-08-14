@@ -1,0 +1,24 @@
+@import 'reset';
+@import 'normalize';
+
+$desktop_mw: 1610px;
+
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-style: 'Source Sans 3', sans-serif;
+    font-size: 18px;
+    line-height: 1.55;
+
+    color: #ADB3BF;
+}
+
+.container {
+    width: 100%;
+    max-width: $desktop_mw;
+    margin: 0 auto;
+    padding: 0 10px;
+}

@@ -1,0 +1,8 @@
+
+.link {
+    transition: color .15s ease-in;
+
+    &_active {
+        color: #F7FAFF;
+    }
+}
