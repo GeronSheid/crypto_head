@@ -1,8 +1,23 @@
 
-.link {
-    transition: color .15s ease-in;
+.navList {
+    display: flex;
+    gap: 30px;
+}
 
+
+
+.link {
+    padding: 8px 18px;
+    transition: color .15s ease-in;
     &_active {
         color: #F7FAFF;
+    }
+}
+
+@media (any-hover: hover) {
+    .link {
+        &:hover {
+            color: #F7FAFF;
+        }
     }
 }

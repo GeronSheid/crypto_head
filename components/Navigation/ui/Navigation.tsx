@@ -26,7 +26,7 @@ const Navigation = () => {
     
     return (
         <nav>
-            <ul>
+            <ul className={styles.navList}>
                 {navlinks.map((link) => (
                     <li key={link.label}>
                         <Link 

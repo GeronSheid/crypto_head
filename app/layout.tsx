@@ -1,8 +1,8 @@
-import Header from "@/components/Header/ui/Header";
 import cn from "classnames";
 import type { Metadata } from "next";
 import { Source_Sans_3 } from "next/font/google";
 import './styles/globals.scss';
+import { Header } from "@/components/Header";
 
 const ss3 = Source_Sans_3({ subsets: ["latin"] });
 
@@ -19,8 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(ss3.className)}>
-        <Header/>
-        {children}
+        <div className="wrapper">
+          <Header/>
+          <main>
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   );

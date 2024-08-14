@@ -1,0 +1,15 @@
+.header {
+    background-color: #1E1F25;
+    &__container {
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.logoLink {
+    display: flex;
+    align-items: center;
+}
+

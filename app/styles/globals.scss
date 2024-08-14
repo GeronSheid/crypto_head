@@ -16,8 +16,17 @@ body {
     color: #ADB3BF;
 }
 
+.wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    & > main {
+        flex: 1 0 100%;
+    }
+}
+
 .container {
-    width: 100%;
     max-width: $desktop_mw;
     margin: 0 auto;
     padding: 0 10px;
