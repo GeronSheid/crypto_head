@@ -1,8 +1,8 @@
 export interface IDropdownList {
-    isLoading?: boolean
-    isActive: boolean
     mainItem: IDropdownItem
     items: IDropdownItem[]
+    className?: string
+    isLoading?: boolean
 }
 
 export interface IDropdownItem {

@@ -1,11 +1,8 @@
-import {render, screen} from '@testing-library/react';
+import {fireEvent, render, screen} from '@testing-library/react';
 import DropdownList from '../ui/DropdownList';
-import { IDropdownList } from '../schemas/interface';
-import styles from '../ui/style.module.scss';
 
 const mockData = {
     isLoading: false,
-    isActive: false,
     mainItem: {label: 'main', path: '/main'},
     items: [
         {label: '1', path: '/1'},
@@ -15,58 +12,54 @@ const mockData = {
 }
 
     describe('Тесты для DropdownList', () => {
-        const { container } = render(
-            <DropdownList
-                mainItem={mockData.mainItem}
-                items={mockData.items}
-                isActive={mockData.isActive}
-            />
-        )
-
-
         it('Отрисовка элемента', () => {
+            const { container, debug } = render(
+                <DropdownList
+                    mainItem={mockData.mainItem}
+                    items={mockData.items}
+                />
+            )
             const element = screen.getByText(mockData.mainItem.label)
             expect(element).toBeInTheDocument();
         })
 
 
         it('Проверка, что список не отрисовывается, пока он не активен', () => {
+            const { container, debug } = render(
+                <DropdownList
+                    mainItem={mockData.mainItem}
+                    items={mockData.items}
+                />
+            )
             const ul = container.querySelector('ul')
             const listItem_1 = screen.queryByText(mockData.items[0].label)
             const listItem_2 = screen.queryByText(mockData.items[1].label)
             const listItem_3 = screen.queryByText(mockData.items[2].label)
-            if(!mockData.isActive) {
-                expect(ul).toBeNull()
-                expect(listItem_1).toBeNull()
-                expect(listItem_2).toBeNull()
-                expect(listItem_3).toBeNull()
-            }
+            expect(ul).toBeNull()
+            expect(listItem_1).toBeNull()
+            expect(listItem_2).toBeNull()
+            expect(listItem_3).toBeNull()
         })
-
-
-        it('Проверка отрисовки списка, когда он активен', () => {
-            mockData.isActive = true
-            const ul = container.querySelector('ul')
-            if(mockData.isActive) {
-                expect(ul).toBeInTheDocument()
-            }
-        })
-
-
-        it('Проверка правильности отрисовки данных в списке', () => {
-            mockData.isActive = true
-            const ul = container.querySelector('ul')
-            const listItem_1 = screen.queryByText(mockData.items[0].label)
-            const listItem_2 = screen.queryByText(mockData.items[1].label)
-            const listItem_3 = screen.queryByText(mockData.items[2].label)
-            if(mockData.isActive) {
-                expect(ul).toBeInTheDocument()
-                expect(listItem_1?.textContent).toBe(mockData.items[0].label)
-                expect(listItem_2?.textContent).toBe(mockData.items[1].label)
-                expect(listItem_3?.textContent).toBe(mockData.items[2].label)
-            }
-        })
-
 
         
+        it('Проверяем появление списка при клике', () => {
+            const { container, debug } = render(
+                <DropdownList
+                    mainItem={mockData.mainItem}
+                    items={mockData.items}
+                />
+            )
+            const button = container.querySelector('button')
+            if(button !== null) {
+                fireEvent.click(button)
+            }
+            const ul = container.querySelector('ul')
+            const listItem_1 = screen.queryByText(mockData.items[0].label)
+            const listItem_2 = screen.queryByText(mockData.items[1].label)
+            const listItem_3 = screen.queryByText(mockData.items[2].label)
+            expect(ul).toBeInTheDocument()
+            expect(listItem_1?.textContent).toBe(mockData.items[0].label)
+            expect(listItem_2?.textContent).toBe(mockData.items[1].label)
+            expect(listItem_3?.textContent).toBe(mockData.items[2].label)
+        })
     })
