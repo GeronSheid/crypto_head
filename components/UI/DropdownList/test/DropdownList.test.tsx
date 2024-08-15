@@ -1,5 +1,6 @@
-import {fireEvent, render, screen} from '@testing-library/react';
+import {fireEvent, getByRole, render, screen, waitFor} from '@testing-library/react';
 import DropdownList from '../ui/DropdownList';
+import { mock } from 'node:test';
 
 const mockData = {
     isLoading: false,
@@ -32,13 +33,11 @@ const mockData = {
                 />
             )
             const ul = container.querySelector('ul')
-            const listItem_1 = screen.queryByText(mockData.items[0].label)
-            const listItem_2 = screen.queryByText(mockData.items[1].label)
-            const listItem_3 = screen.queryByText(mockData.items[2].label)
+
             expect(ul).toBeNull()
-            expect(listItem_1).toBeNull()
-            expect(listItem_2).toBeNull()
-            expect(listItem_3).toBeNull()
+            mockData.items.forEach(item => {
+                expect(screen.queryByText(item.label)).toBeNull()
+            })
         })
 
         
@@ -49,17 +48,32 @@ const mockData = {
                     items={mockData.items}
                 />
             )
-            const button = container.querySelector('button')
-            if(button !== null) {
-                fireEvent.click(button)
-            }
-            const ul = container.querySelector('ul')
-            const listItem_1 = screen.queryByText(mockData.items[0].label)
-            const listItem_2 = screen.queryByText(mockData.items[1].label)
-            const listItem_3 = screen.queryByText(mockData.items[2].label)
+            const button = screen.getByRole('button')
+            fireEvent.click(button)
+
+            const ul = screen.getByRole('list')
+            
             expect(ul).toBeInTheDocument()
-            expect(listItem_1?.textContent).toBe(mockData.items[0].label)
-            expect(listItem_2?.textContent).toBe(mockData.items[1].label)
-            expect(listItem_3?.textContent).toBe(mockData.items[2].label)
+            mockData.items.forEach(item => {
+                expect(screen.queryByText(item.label)?.innerHTML).toBe(item.label)
+            })
+        })
+
+        it('Проверим, что при повторном клике список закрывается', async () => {
+            const { container, debug } = render(
+                <DropdownList
+                    mainItem={mockData.mainItem}
+                    items={mockData.items}
+                />
+            )
+            const button = await screen.findByRole('button')
+            fireEvent.click(button)
+            let ul = await screen.findByRole('list')
+            fireEvent.click(button)
+            setTimeout(async () => {
+                ul = await screen.findByRole('list')
+                expect(ul).toBeNull()
+            }, 2000)
+            
         })
     })
